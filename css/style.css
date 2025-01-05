@@ -97,9 +97,8 @@ overflow: hidden;
 
 .copy-button-wrapper {
 position: absolute; 
-top: 10px; 
-right: 0px; 
-z-index: 20; 
+top: 0px;   
+right: 0px;
 }
 .copy-button {
 background: transparent; 
@@ -111,7 +110,7 @@ border-radius: 4px;
 cursor: pointer; 
 display: flex;
 align-items: center;
-gap: 4px; 
+gap: 9px; 
 }
 
 .copy-button svg {
@@ -124,9 +123,8 @@ color: #515151;
 }
 .copy-button.success svg path {
 fill: #515151; 
-}
-        /* Efeito de chuva de código estilo hacker */
-        .rain {
+}       
+.rain {
             position: absolute;
             top: 0;
             left: 0;
@@ -137,18 +135,18 @@ fill: #515151;
             overflow: hidden;
         }
 
-        .rain span {
+.rain span {
             position: absolute;
             top: -100%;
             left: 0;
-            font-size: 20px; /* Ajuste o tamanho do caractere para suavizar */
+            font-size: 20px; 
             color: #00FF00;
             white-space: nowrap;
             animation: fall 10s linear infinite;
             opacity: 0.7;
         }
 
-        @keyframes fall {
+@keyframes fall {
             0% {
                 top: -100%;
                 opacity: 0.7;
@@ -158,3 +156,69 @@ fill: #515151;
                 opacity: 0.1;
             }
         }
+/* Estilo do modal */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    z-index: 1000;
+    display: none; 
+}
+
+.modal-content {
+    text-align: center;
+}
+
+/* Estilo do botão fechar */
+.close {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.close:hover {
+    background: #c9302c;
+}
+
+/* Estilo do ícone de ajuda */
+.help-container {
+    display: inline-block;
+    position: relative;
+    margin-left: 10px;
+}
+
+.help-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.help-text {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.help-container:hover .help-text {
+    display: block;
+}
