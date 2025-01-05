@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apoie o Dev</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Apoie o Desenvolvedor</h1>
+    <svg class="coffee-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19 8h-1V5c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v3H5c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9c0-1.1-.9-2-2-2zm-9-3h4v3H10V5zm9 14H5v-7h14v7z"/>
+    </svg>
+    <p>Gostou do projeto? Que tal apoiar o desenvolvedor?</p>
+    <button class="button" id="supportButton">Apoiar com um café</button>
+    <!-- Efeito de chuva de código -->
+    <div class="rain" id="rain"></div>
+
+    <!-- Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <h2>Obrigado pelo Apoio!</h2>
+            <div class="crypto-option">
+                <p><strong>USDT:<pre><code>0xd3d6b458d11beb37aac0bcacce81e2792869f3a1 </code> </pre></strong></p>
+            </div>
+            <button class="close" id="closeModal">Fechar</button>
+        </div>
+    </div>
+
+<script src="js/scripter.js"></script>
+</body>
+</html>
