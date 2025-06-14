@@ -108,8 +108,9 @@ p {
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.modal.hidden {
-    display: none; /* O JS controla display: none/flex */
+/* Adicionada a regra para a classe hidden */
+.hidden {
+    display: none !important; /* Força a ocultação de elementos com esta classe */
 }
 
 /* Estilo do Conteúdo do Modal */

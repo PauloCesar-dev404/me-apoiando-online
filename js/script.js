@@ -1,4 +1,4 @@
-
+// Aguarda o carregamento completo do DOM antes de anexar eventos
 document.addEventListener('DOMContentLoaded', () => {
     // Seleção de elementos do DOM
     const supportButton = document.getElementById('supportButton');
@@ -39,20 +39,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para abrir o modal
     function openModal() {
-        paymentModal.classList.remove('hidden'); 
+        // Primeiro, remova a classe 'hidden' para que 'display: flex' seja aplicado
+        paymentModal.classList.remove('hidden');
+        // Em seguida, após um pequeno delay para garantir que o display esteja ativo,
+        // torne o modal visível e comece a transição de opacidade/escala
         setTimeout(() => {
+            paymentModal.style.opacity = '1';
+            paymentModal.style.visibility = 'visible';
             modalContent.classList.remove('scale-95', 'opacity-0');
             modalContent.classList.add('scale-100', 'opacity-100');
-        }, 100);
+        }, 50); // Pequeno delay para permitir que o navegador aplique o 'display: flex'
     }
 
     // Função para fechar o modal
     function closeModal() {
+        // Inicie a animação de saída do conteúdo do modal
         modalContent.classList.remove('scale-100', 'opacity-100');
         modalContent.classList.add('scale-95', 'opacity-0');
+
+        // Inicie a animação de saída do modal em si (opacidade e visibilidade)
+        paymentModal.style.opacity = '0';
+        paymentModal.style.visibility = 'hidden';
+
+        // Adicione a classe 'hidden' (display: none) somente após a conclusão das transições
+        // O tempo do setTimeout deve ser igual ou um pouco maior que a duração da transição CSS do modal
         setTimeout(() => {
             paymentModal.classList.add('hidden');
-        }, 300); 
+        }, 300); // 300ms corresponde à transição de 0.3s definida no CSS para .modal
     }
 
     // Event listener para o botão de apoio
@@ -80,17 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lógica para o efeito de chuva de código
     const rainContainer = document.getElementById('rain');
-    const numberOfDrops = 50; 
-    const dropSpeed = 10; 
-    const minDropSize = 2; 
-    const maxDropSize = 4; 
-    const minDropHeight = 10; 
+    const numberOfDrops = 50;
+    const dropSpeed = 10;
+    const minDropSize = 2;
+    const maxDropSize = 4;
+    const minDropHeight = 10;
     const maxDropHeight = 20;
 
     // Cria as gotas de chuva
     for (let i = 0; i < numberOfDrops; i++) {
         const drop = document.createElement('div');
-        drop.classList.add('drop'); 
+        drop.classList.add('drop');
         drop.style.left = `${Math.random() * 100}vw`;
         drop.style.animationDelay = `${Math.random() * dropSpeed}s`;
         drop.style.animationDuration = `${dropSpeed + Math.random() * 5}s`;
