@@ -1,73 +1,96 @@
-        // Função para criar o efeito de "chuva de código"
-     function generateRain() {
-          const rainContainer = document.getElementById('rain');
-          const numDrops = 100; // Quantidade de linhas de código caindo
-
-          for (let i = 0; i < numDrops; i++) {
-              const span = document.createElement('span');
-              const randomLeft = Math.random() * 100;
-              const randomDelay = Math.random() * 5;
-              const randomSpeed = Math.random() * 2 + 3;
-
-              span.style.left = `${randomLeft}%`;
-              span.style.animationDuration = `${randomSpeed}s`;
-              span.style.animationDelay = `${randomDelay}s`;
-
-              const randomChar = String.fromCharCode(Math.floor(Math.random() * (126 - 33)) + 33); // Caracteres aleatórios
-
-              span.textContent = randomChar;
-              rainContainer.appendChild(span);
-          }
-      }
-document.getElementById('supportButton').addEventListener('click', function() {
-    this.textContent = "Que grande marco!";
-    generateRain();
-    this.disabled = true;
-    document.getElementById('paymentModal').style.display = 'flex'; 
-});
-
-document.getElementById('closeModal').addEventListener('click', function() {
-    document.getElementById('paymentModal').style.display = 'none'; 
-});
+// Aguarda o carregamento completo do DOM antes de anexar eventos
 document.addEventListener('DOMContentLoaded', () => {
-// Adiciona o botão de copiar a todos os blocos de código
-document.querySelectorAll('pre').forEach((codeBlock) => {
-// Cria o botão de copiar
-const button = document.createElement('button');
-button.className = 'copy-button';
-button.type = 'button';
-button.title = 'copiar';
-button.innerHTML = `
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="icon-sm">
-  <path fill="currentColor" fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1zM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1z" clip-rule="evenodd"></path>
-</svg>
+    // Seleção de elementos do DOM
+    const supportButton = document.getElementById('supportButton');
+    const paymentModal = document.getElementById('paymentModal');
+    const modalContent = document.getElementById('modalContent');
+    const closeModalButton = document.getElementById('closeModal');
+    const cryptoAddressElement = document.getElementById('cryptoAddress');
+    const copyAddressButton = document.getElementById('copyAddressButton');
+    const copyMessageElement = document.getElementById('copyMessage');
+    const rainContainer = document.getElementById('rain');
 
-`;
+    // Função para abrir o modal
+    function openModal() {
+        paymentModal.classList.remove('hidden'); // Remove a classe 'hidden' para exibir o modal
+        // Adiciona classes para a animação de entrada do modal
+        setTimeout(() => {
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            modalContent.classList.add('scale-100', 'opacity-100');
+        }, 100);
+    }
 
-button.addEventListener('click', () => {
-const code = codeBlock.querySelector('code').innerText;
+    // Função para fechar o modal
+    function closeModal() {
+        // Adiciona classes para a animação de saída do modal
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
+        // Esconde o modal após a animação de saída
+        setTimeout(() => {
+            paymentModal.classList.add('hidden');
+        }, 300); // Duração da transição deve ser a mesma do CSS
+    }
 
-navigator.clipboard.writeText(code).then(() => {
-  button.textContent = 'Copiado!'; // Texto após copiar
-  button.classList.add('success');
+    // Event listener para o botão de apoio
+    supportButton.addEventListener('click', openModal);
 
-  setTimeout(() => {
-    button.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="icon-sm">
-        <path fill="currentColor" fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1zM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1z" clip-rule="evenodd"></path>
-      </svg>
-    `;
-    button.classList.remove('success');
-  }, 2000);
-}).catch((error) => {
-  console.error('Erro ao copiar o texto: ', error);
-});
-});
+    // Event listener para o botão de fechar modal
+    closeModalButton.addEventListener('click', closeModal);
 
-// Insere o botão no bloco de código
-const wrapper = document.createElement('span');
-wrapper.className = 'copy-button-wrapper';
-wrapper.appendChild(button);
-codeBlock.appendChild(wrapper);
-});
+    // Fecha o modal se o usuário clicar fora do conteúdo do modal
+    paymentModal.addEventListener('click', (event) => {
+        if (event.target === paymentModal) {
+            closeModal();
+        }
+    });
+
+    // Event listener para o botão de copiar endereço
+    copyAddressButton.addEventListener('click', () => {
+        // Cria um elemento de texto temporário para copiar o conteúdo
+        const textArea = document.createElement('textarea');
+        textArea.value = cryptoAddressElement.textContent;
+        document.body.appendChild(textArea);
+        textArea.select(); // Seleciona o texto
+
+        try {
+            document.execCommand('copy'); // Tenta copiar o texto para a área de transferência
+            copyMessageElement.classList.remove('hidden'); // Exibe a mensagem "Copiado!"
+            setTimeout(() => {
+                copyMessageElement.classList.add('hidden'); // Esconde a mensagem após 2 segundos
+            }, 2000);
+        } catch (err) {
+            console.error('Falha ao copiar: ', err);
+            // Mensagem de erro alternativa, se necessário
+        }
+        document.body.removeChild(textArea); // Remove o elemento temporário
+    });
+
+    // Lógica para o efeito de chuva de código
+    const numberOfDrops = 50; // Número de gotas de chuva
+    const dropSpeed = 10; // Velocidade de queda das gotas (em segundos)
+    const minDropSize = 2; // Tamanho mínimo da gota em px
+    const maxDropSize = 4; // Tamanho máximo da gota em px
+    const minDropHeight = 10; // Altura mínima da gota em px
+    const maxDropHeight = 20; // Altura máxima da gota em px
+
+    // Cria as gotas de chuva
+    for (let i = 0; i < numberOfDrops; i++) {
+        const drop = document.createElement('div');
+        drop.classList.add('drop'); // Adiciona a classe 'drop' para estilização
+        // Posição horizontal aleatória
+        drop.style.left = `${Math.random() * 100}vw`;
+        // Atraso aleatório para que as gotas não caiam todas ao mesmo tempo
+        drop.style.animationDelay = `${Math.random() * dropSpeed}s`;
+        // Duração da animação aleatória para variação de velocidade
+        drop.style.animationDuration = `${dropSpeed + Math.random() * 5}s`;
+        // Tamanho e altura aleatórios para cada gota
+        const size = minDropSize + Math.random() * (maxDropSize - minDropSize);
+        const height = minDropHeight + Math.random() * (maxDropHeight - minDropHeight);
+        drop.style.width = `${size}px`;
+        drop.style.height = `${height}px`;
+        // Posição vertical inicial acima da tela
+        drop.style.top = `-${Math.random() * 100}vh`;
+
+        rainContainer.appendChild(drop);
+    }
 });
